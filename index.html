@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Editor Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen text-gray-800 selection:bg-indigo-100 flex flex-col">
+    <nav class="bg-white shadow-sm border-b border-gray-200 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <div class="bg-indigo-600 text-white p-1.5 rounded-lg">
+                        <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
+                    </div>
+                    <h1 class="text-xl font-bold text-gray-900 tracking-tight">Pixel<span class="text-indigo-600">Perfect</span></h1>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button id="reset-btn" class="text-gray-500 hover:text-red-600 hover:bg-red-50 transition text-sm font-medium px-4 py-2 rounded-lg hidden sm:block">
+                        <i class="fa-solid fa-rotate-left mr-1"></i> Reset
+                    </button>
+                    <button id="download-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg text-sm font-medium transition flex items-center shadow-sm disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-md transform active:scale-95">
+                        <i class="fa-solid fa-download mr-2"></i> Save Image
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full h-[calc(100vh-4rem)]">
+        <div class="flex flex-col lg:flex-row gap-6 h-full">
+            
+            <div class="w-full lg:w-80 flex flex-col gap-5 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-auto lg:h-full overflow-y-auto no-scrollbar">
+                
+                <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-indigo-400 hover:bg-indigo-50/30 transition cursor-pointer group relative flex flex-col items-center justify-center min-h-[100px]" id="drop-zone">
+                    <input type="file" id="upload-file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                    <div class="text-gray-400 group-hover:text-indigo-500 transition">
+                        <div class="bg-gray-50 group-hover:bg-white p-3 rounded-full inline-block mb-2 transition shadow-sm">
+                            <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
+                        </div>
+                        <p class="text-sm font-semibold">Upload Image</p>
+                        <p class="text-xs text-gray-400 mt-1">or drag and drop</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider">Adjustments</h3>
+                        <span class="text-xs text-gray-400" id="active-filter-label">Brightness</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <button class="filter-btn active ring-2 ring-indigo-500 ring-offset-1 bg-indigo-50 text-indigo-700 border-indigo-200 border rounded-lg py-2.5 text-sm font-medium transition-all" data-filter="brightness">
+                            <i class="fa-regular fa-sun mr-1.5"></i> Brightness
+                        </button>
+                        <button class="filter-btn bg-white border border-gray-200 text-gray-600 rounded-lg py-2.5 text-sm font-medium transition hover:bg-gray-50 hover:text-gray-900" data-filter="saturation">
+                            <i class="fa-solid fa-droplet mr-1.5"></i> Saturation
+                        </button>
+                        <button class="filter-btn bg-white border border-gray-200 text-gray-600 rounded-lg py-2.5 text-sm font-medium transition hover:bg-gray-50 hover:text-gray-900" data-filter="inversion">
+                            <i class="fa-solid fa-circle-half-stroke mr-1.5"></i> Inversion
+                        </button>
+                        <button class="filter-btn bg-white border border-gray-200 text-gray-600 rounded-lg py-2.5 text-sm font-medium transition hover:bg-gray-50 hover:text-gray-900" data-filter="grayscale">
+                            <i class="fa-solid fa-filter mr-1.5"></i> Grayscale
+                        </button>
+                        <button class="filter-btn bg-white border border-gray-200 text-gray-600 rounded-lg py-2.5 text-sm font-medium transition hover:bg-gray-50 hover:text-gray-900" data-filter="contrast">
+                            <i class="fa-solid fa-circle-half-stroke fa-rotate-90 mr-1.5"></i> Contrast
+                        </button>
+                        <button class="filter-btn bg-white border border-gray-200 text-gray-600 rounded-lg py-2.5 text-sm font-medium transition hover:bg-gray-50 hover:text-gray-900" data-filter="sepia">
+                            <i class="fa-solid fa-mug-hot mr-1.5"></i> Sepia
+                        </button>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <div class="flex justify-between mb-3 items-end">
+                            <label class="text-sm font-medium text-gray-700" id="filter-name">Level</label>
+                            <span class="text-sm bg-white px-2 py-0.5 rounded shadow-sm border border-gray-100 font-mono text-indigo-600 font-bold" id="filter-value">100%</span>
+                        </div>
+                        <input type="range" id="filter-slider" min="0" max="200" value="100" class="w-full">
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-100 my-1"></div>
+
+                <div class="space-y-4">
+                    <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider">Transform</h3>
+                    <div class="grid grid-cols-4 gap-2">
+                        <button id="rotate-left" class="bg-white border border-gray-200 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 text-gray-600 rounded-lg p-2.5 transition flex justify-center items-center group" title="Rotate Left">
+                            <i class="fa-solid fa-rotate-left group-active:scale-90 transition"></i>
+                        </button>
+                        <button id="rotate-right" class="bg-white border border-gray-200 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 text-gray-600 rounded-lg p-2.5 transition flex justify-center items-center group" title="Rotate Right">
+                            <i class="fa-solid fa-rotate-right group-active:scale-90 transition"></i>
+                        </button>
+                        <button id="flip-x" class="bg-white border border-gray-200 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 text-gray-600 rounded-lg p-2.5 transition flex justify-center items-center group" title="Flip Horizontal">
+                            <i class="fa-solid fa-arrows-left-right group-active:scale-90 transition"></i>
+                        </button>
+                        <button id="flip-y" class="bg-white border border-gray-200 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 text-gray-600 rounded-lg p-2.5 transition flex justify-center items-center group" title="Flip Vertical">
+                            <i class="fa-solid fa-arrows-up-down group-active:scale-90 transition"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-1 bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex items-center justify-center overflow-hidden canvas-container relative">
+                
+                <canvas id="canvas" class="max-w-full max-h-full object-contain shadow-2xl hidden transition-all duration-300"></canvas>
+                
+                <div id="placeholder" class="text-center animate-fade-in">
+                    <div class="bg-white p-6 rounded-full inline-flex mb-4 shadow-sm">
+                        <i class="fa-regular fa-image text-4xl text-indigo-200"></i>
+                    </div>
+                    <h2 class="text-lg font-semibold text-gray-800">No Image Selected</h2>
+                    <p class="text-sm text-gray-400 mt-1 max-w-xs mx-auto">Upload an image from the sidebar to verify your artistic skills!</p>
+                </div>
+                
+                <div id="toast" class="absolute bottom-6 bg-gray-800 text-white px-4 py-3 rounded-xl shadow-xl flex items-center space-x-3 transform translate-y-20 opacity-0 transition-all duration-300 z-20">
+                    <i class="fa-solid fa-circle-check text-green-400"></i>
+                    <span class="text-sm font-medium">Image saved successfully!</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

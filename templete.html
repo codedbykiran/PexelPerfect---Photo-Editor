@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Select Template</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="templates-container">
+        <h1>Select Your Resume Template</h1>
+        <div class="template-grid">
+            <div class="template-card" onclick="openEditor('template1')">
+                <img src="template1.png" alt="Template 1">
+                <p>Template 1</p>
+            </div>
+            <div class="template-card" onclick="openEditor('template2')">
+                <img src="template2.png" alt="Template 2">
+                <p>Template 2</p>
+            </div>
+            <div class="template-card" onclick="openEditor('template3')">
+                <img src="template3.png" alt="Template 3">
+                <p>Template 3</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openEditor(template) {
+            window.location.href = `editor.html?template=${template}`;
+        }
+    </script>
+</body>
+</html>
